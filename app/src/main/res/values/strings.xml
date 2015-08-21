@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Parking</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="missingUsername">username is missing</string>
+    <string name="missingPassword">password is missing</string>
+    <string name="missingEmail">e-mail is missing</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="userIsSignedUp">userIsSignedUp</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_navigate_to_car">NavigateToCarActivity</string>
+    <string name="title_activity_share_car_position">ShareCarPositionActivity</string>
+    <string name="title_activity_heat_map">HeatMapActivity</string>
+</resources>
