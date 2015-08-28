@@ -1,12 +1,37 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.martinlamby.parking.ShareCarPositionActivity">
+    tools:context="com.example.martinlamby.parking.ShareCarPositionActivity"
+    android:orientation="vertical"
+    android:id="@+id/linearLayout">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Contacts"
+        android:id="@+id/contactsTitleTextView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1" />
 
-</RelativeLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contactsListView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="20"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send "
+        android:id="@+id/sendCarPositionButton"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.1" />
+
+</LinearLayout>

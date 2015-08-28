@@ -19,7 +19,7 @@ public class StartActivity extends Activity {
         sharedPrefs = getSharedPreferences("com.example.martinlamby.parking", MODE_PRIVATE);
 
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "enter Application ID", "enter Application Key");
+        Parse.initialize(this, "Id-here", "Key-here");
 
 
         boolean signedUp = sharedPrefs.getBoolean(getString(R.string.userIsSignedUp),false);

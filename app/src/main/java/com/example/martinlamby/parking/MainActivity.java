@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Button shareCarPosition;
     private Button heatMap;
 
-    private Location parkedCarLocation;
+    public static Location parkedCarLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         shareCarPosition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ShareCarPositionActivity.class));
                 //send Location to SMS app
             }
         });
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
 
     public boolean isGoogleMapsInstalled()
     {
