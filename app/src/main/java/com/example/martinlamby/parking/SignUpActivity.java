@@ -1,5 +1,6 @@
 package com.example.martinlamby.parking;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +22,16 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText password;
     private EditText email;
     private Button signUp;
+    private ProgressDialog signUpProgressDialog;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        passUserToLogin();
         setContentView(R.layout.activity_sign_up);
 
         username = (EditText) findViewById(R.id.usernameSignUpEditText);
@@ -63,19 +69,31 @@ public class SignUpActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //checks if User has already created Account and if so refers him to the Login Screen (LoginActivity)
+    public void passUserToLogin(){
+        if(StartActivity.getIsUserNew()==true){
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+            this.finish();
+        }
+    }
+
     public void signUpUser(){
-        boolean emptyField = false;
+        boolean usernameEmptyField = false;
+        boolean passwordEmptyField = false;
+        boolean emailEmptyField = false;
         String usernameString = username.getText().toString();
         String passwordString = password.getText().toString();
         String emailString = email.getText().toString();
 
-        emptyField = isEmptyString(this, usernameString, getString(R.string.missingUsername));
-        emptyField = isEmptyString(this, passwordString, getString(R.string.missingPassword));
-        emptyField = isEmptyString(this, emailString, getString(R.string.missingEmail));
+        usernameEmptyField = isEmptyString(this, usernameString, getString(R.string.missingUsername));
+        passwordEmptyField = isEmptyString(this, passwordString, getString(R.string.missingPassword));
+        emailEmptyField = isEmptyString(this, emailString, getString(R.string.missingEmail));
 
 
-        if(emptyField==false) {
+        if(usernameEmptyField == false && passwordEmptyField == false && emailEmptyField == false) {
             createParseUser();
+            signUpProgressDialog = StartActivity.showProgressDialog("Sign up in progress",this);
         }
 
     }
@@ -86,7 +104,6 @@ public class SignUpActivity extends AppCompatActivity {
         user.setPassword(password.getText().toString());
         user.setEmail(email.getText().toString());
 
-
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -94,12 +111,11 @@ public class SignUpActivity extends AppCompatActivity {
                     System.out.println("Sign Up sucessfull");
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));     //Proceed to next activity
                 } else {
-
                     StartActivity.sharedPrefs.edit().putBoolean(getString(R.string.userIsSignedUp), true).commit();
-
                     System.out.println("ParseError   " + e.getMessage());
                     showErrorToast(getApplicationContext(), e.getMessage());
                 }
+                signUpProgressDialog.dismiss();
             }
         });
     }

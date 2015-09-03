@@ -1,5 +1,6 @@
 package com.example.martinlamby.parking;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,16 +19,17 @@ public class LoginActivity extends AppCompatActivity {
     private Button logIn;
     private EditText username;
     private EditText password;
+    private ProgressDialog loginProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         username = (EditText) findViewById(R.id.usernameLoginEditText);
         password = (EditText) findViewById(R.id.passwordLoginEditText);
         logIn = (Button) findViewById(R.id.loginButton);
-
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,15 +61,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void logInUser(){
-        boolean emptyField = false;
+        boolean usernameEmptyField = false;
+        boolean passwordEmptyField = false;
         String usernameString = username.getText().toString();
         String passwordString = password.getText().toString();
 
-        emptyField = SignUpActivity.isEmptyString(this, usernameString, getString(R.string.missingUsername));
-        emptyField = SignUpActivity.isEmptyString(this, passwordString, getString(R.string.missingPassword));
+        usernameEmptyField = SignUpActivity.isEmptyString(this, usernameString, getString(R.string.missingUsername));
+        passwordEmptyField = SignUpActivity.isEmptyString(this, passwordString, getString(R.string.missingPassword));
 
-        if(emptyField==false){
-            logInParseUser(usernameString,passwordString);
+        if(usernameEmptyField == false && passwordEmptyField == false) {
+            logInParseUser(usernameString, passwordString);
+            loginProgressDialog = StartActivity.showProgressDialog("Login in progress",this);
+
         }
 
     }
@@ -76,13 +81,14 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
-                if(parseUser != null){
+                if (parseUser != null) {
                     System.out.println("Login Sucessfull");
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));      //Proceed to next activity
-                }else{
-                    System.out.println("Login failed | Problem:   "+e.getMessage());
-                    SignUpActivity.showErrorToast(getApplicationContext(),e.getMessage());
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));      //Proceed to next activity
+                } else {
+                    System.out.println("Login failed | Problem:   " + e.getMessage());
+                    SignUpActivity.showErrorToast(getApplicationContext(), e.getMessage());
                 }
+                loginProgressDialog.dismiss();
             }
         });
     }

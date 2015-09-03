@@ -1,35 +1,54 @@
 package com.example.martinlamby.parking;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.Application;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 
 import com.parse.Parse;
+import com.parse.ParseUser;
 
-public class StartActivity extends Activity {
+public class StartActivity extends Application {
 
     public static SharedPreferences sharedPrefs;
+    private static boolean isUserNew;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        sharedPrefs = getSharedPreferences("com.example.martinlamby.parking", MODE_PRIVATE);
+    public void onCreate() {
+        super.onCreate();
 
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "Id-here", "Key-here");
+        Parse.initialize(this, "APP-ID here","CLIENT-KEY here");
+
+        logOutCurrentUser();
+        checkIfUserIsNew();
 
 
-        boolean signedUp = sharedPrefs.getBoolean(getString(R.string.userIsSignedUp),false);
-        System.out.println(signedUp);
-
-        if(signedUp==false){
-            startActivity(new Intent(this,SignUpActivity.class));
-        }else{
-            startActivity(new Intent(this,LoginActivity.class));
-        }
-        this.finish();
     }
+    //make sure Current User is logged Out
+    public void logOutCurrentUser(){
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.logOut();
+    }
+
+    public void checkIfUserIsNew(){
+        sharedPrefs = getSharedPreferences("com.example.martinlamby.parking", MODE_PRIVATE);
+
+        //only for testing purposes if enabled App will not recognize exisiting user and will pass you to SignUp Screen
+        //sharedPrefs.edit().clear().commit();
+
+
+        isUserNew = sharedPrefs.getBoolean(getString(R.string.userIsSignedUp), false);
+    }
+
+    public static boolean getIsUserNew(){
+        return isUserNew;
+    }
+    //shows Pop up Progress Dialog in after Sign Up (Activity) and after Login (Activity)
+    public static ProgressDialog showProgressDialog(String titleMessage, Context context){
+        ProgressDialog progressDialog = ProgressDialog.show(context,titleMessage,"Please wait...", true);
+        progressDialog.show();
+        return progressDialog;
+    }
+
 }
