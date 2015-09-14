@@ -30,6 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        System.out.println("IS USER NEW???   " + StartActivity.getIsUserNew());
 
         passUserToLogin();
         setContentView(R.layout.activity_sign_up);
@@ -46,6 +47,8 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
         if(StartActivity.getIsUserNew()==true){
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
-            this.finish();
+            finish();
         }
     }
 
@@ -109,9 +112,9 @@ public class SignUpActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     System.out.println("Sign Up sucessfull");
+                    StartActivity.sharedPrefs.edit().putBoolean(getString(R.string.userIsSignedUp), true).commit();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));     //Proceed to next activity
                 } else {
-                    StartActivity.sharedPrefs.edit().putBoolean(getString(R.string.userIsSignedUp), true).commit();
                     System.out.println("ParseError   " + e.getMessage());
                     showErrorToast(getApplicationContext(), e.getMessage());
                 }

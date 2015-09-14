@@ -83,7 +83,9 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser parseUser, ParseException e) {
                 if (parseUser != null) {
                     System.out.println("Login Sucessfull");
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));      //Proceed to next activity
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);     //Proceed to next activity
+                    finish();
                 } else {
                     System.out.println("Login failed | Problem:   " + e.getMessage());
                     SignUpActivity.showErrorToast(getApplicationContext(), e.getMessage());

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +14,11 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private Button navigateToCar;
     private Button shareCarPosition;
     private Button heatMap;
 
-    public static Location parkedCarLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
         shareCarPosition = (Button) findViewById(R.id.shareButton);
         heatMap = (Button) findViewById(R.id.heatMapButton);
 
-        //only for test purpose
-        parkedCarLocation = new Location("");
-        parkedCarLocation.setLatitude(48.046650);
-        parkedCarLocation.setLongitude(10.526385);
+        startService(new Intent(getBaseContext(), GeoLocationService.class));
+        startService(new Intent(getBaseContext(), ShakeDetectorService.class));
+
+
         navigateToCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,14 +56,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void startNavigation(){
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(getBaseContext(), GeoLocationService.class));
+        stopService(new Intent(getBaseContext(), ShakeDetectorService.class));
+        super.onDestroy();
+    }
+
+    public void startNavigation() {
         boolean isInstalled = isGoogleMapsInstalled();
-        if(isInstalled == true) {
-            Uri gMapsIntentUri = Uri.parse("google.navigation:q=" + parkedCarLocation.getLatitude() + "," + parkedCarLocation.getLongitude());
+        if (isInstalled == true) {
+            Uri gMapsIntentUri = Uri.parse("google.navigation:q=" + GeoLocationService.getLastLocationLatitude() + "," + GeoLocationService.getLastLocationLongitude());
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gMapsIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
-        }else{
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Please install Google Maps");
             builder.show();
@@ -72,20 +78,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public boolean isGoogleMapsInstalled()
-    {
-        try
-        {
-            ApplicationInfo info = getPackageManager().getApplicationInfo("com.google.android.apps.maps", 0 );
+    public boolean isGoogleMapsInstalled() {
+        try {
+            ApplicationInfo info = getPackageManager().getApplicationInfo("com.google.android.apps.maps", 0);
             return true;
-        }
-        catch(PackageManager.NameNotFoundException e)
-        {
+        } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

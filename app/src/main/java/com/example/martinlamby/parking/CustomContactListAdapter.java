@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,10 +18,12 @@ public class CustomContactListAdapter extends ArrayAdapter<Contact> {
 
     private static final int SELECTED_ITEM_COLOR = Color.rgb(255,255,255);
     private ArrayList<Contact> contacts;
+    private ListView list;
 
-    public CustomContactListAdapter(Context context, int resource, ArrayList<Contact> contacts) {
+    public CustomContactListAdapter(Context context, int resource, ArrayList<Contact> contacts, ListView list) {
         super(context, resource, contacts);
         this.contacts = contacts;
+        this.list = list;
     }
 
 
@@ -38,12 +41,13 @@ public class CustomContactListAdapter extends ArrayAdapter<Contact> {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for(int i = 0;i<contacts.size();i++){
+                    contacts.get(i).setIsSelected(false);
+                    list.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                }
                 if (contacts.get(position).getIsSelected()==false) {
                     finalRowView.setBackgroundColor(SELECTED_ITEM_COLOR);
                     contacts.get(position).setIsSelected(true);
-                } else {
-                    finalRowView.setBackgroundColor(Color.TRANSPARENT);
-                    contacts.get(position).setIsSelected(false);
                 }
             }
         });
@@ -54,15 +58,13 @@ public class CustomContactListAdapter extends ArrayAdapter<Contact> {
 
     }
 
-    public ArrayList<Contact> getSelectedContacts(){
-        ArrayList<Contact> selectedContacts = new ArrayList<>();
-
+    public Contact getSelectedContact(){
+        Contact selected = null;
         for(int i = 0;i<contacts.size();i++){
             if(contacts.get(i).getIsSelected()==true){
-                selectedContacts.add(contacts.get(i));
+                selected = contacts.get(i);
             }
         }
-
-        return selectedContacts;
+        return selected;
     }
 }

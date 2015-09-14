@@ -2,24 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.martinlamby.parking" >
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
+        android:name=".StartActivity"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".StartActivity">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SignUpActivity"
-            android:label="@string/title_activity_sign_up" >
+            android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,20 +31,35 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".NavigateToCarActivity"
-            android:label="@string/title_activity_navigate_to_car" >
+            android:label="@string/title_activity_navigate_to_car"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ShareCarPositionActivity"
-            android:label="@string/title_activity_share_car_position" >
+            android:label="@string/title_activity_share_car_position"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".HeatMapActivity"
-            android:label="@string/title_activity_heat_map" >
+            android:label="@string/title_activity_heat_map"
+            android:screenOrientation="portrait" >
         </activity>
+
+        <service
+            android:name=".GeoLocationService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".ShakeDetectorService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

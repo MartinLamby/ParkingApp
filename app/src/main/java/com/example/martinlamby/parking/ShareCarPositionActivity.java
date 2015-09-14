@@ -26,8 +26,8 @@ public class ShareCarPositionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_share_car_position);
 
         retrieveContacts();
-        customContactListAdapter = new CustomContactListAdapter(getApplicationContext(),R.layout.contacts_list_item, contacts);
         ListView contactsList = (ListView) findViewById(R.id.contactsListView);
+        customContactListAdapter = new CustomContactListAdapter(getApplicationContext(),R.layout.contacts_list_item, contacts, contactsList);
         contactsList.setAdapter(customContactListAdapter);
         customContactListAdapter.notifyDataSetChanged();
 
@@ -84,19 +84,17 @@ public class ShareCarPositionActivity extends AppCompatActivity {
     }
 
     public void sendSMS(){
-        ArrayList<Contact> selectedContacts = customContactListAdapter.getSelectedContacts();
-
+        Contact selectedContact = customContactListAdapter.getSelectedContact();
+        System.out.println(selectedContact.getName());
         //should work with sms and maybe email
         //google url should also define zoom (z)
-        String smsBody = "Here is my car \n http://maps.google.com?q"+MainActivity.parkedCarLocation.getLatitude()+","+MainActivity.parkedCarLocation.getLongitude()+"&z=12";
-        System.out.println(selectedContacts.size());
+        String smsBody = "Here is my car \n http://maps.google.com?q"+GeoLocationService.getLastLocationLatitude()+","+GeoLocationService.getLastLocationLongitude()+"&z=12";
         System.out.println("googleMapsLocationUri");
 
         //email is implemented for test pruposes
         try {
             SmsManager smsManager = SmsManager.getDefault();
-            for(int i = 0;i<selectedContacts.size();i++) {
-                //smsManager.sendTextMessage(selectedContacts.get(i).getMobilePhoneNumber(), null, googleMapsLocationUri, null, null);
+                //smsManager.sendTextMessage(selectedContact.getMobilePhoneNumber(), null, googleMapsLocationUri, null, null);
                 //System.out.println("SMS send");
 
                 Intent intent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
@@ -106,9 +104,9 @@ public class ShareCarPositionActivity extends AppCompatActivity {
                 intent.setData(Uri.parse("mailto:martinlamby@gmail.com")); // or just "mailto:" for blank
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
                 startActivity(intent);
-            }
-        }catch (Exception e){
 
+        }catch (Exception e){
+            System.out.println("Error:  "+e.getMessage());
         }
     }
 

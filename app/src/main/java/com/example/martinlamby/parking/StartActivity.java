@@ -18,7 +18,7 @@ public class StartActivity extends Application {
         super.onCreate();
 
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "APP-ID here","CLIENT-KEY here");
+        Parse.initialize(this, "APP_KEY","CLIENT_KEY");
 
         logOutCurrentUser();
         checkIfUserIsNew();
@@ -36,7 +36,6 @@ public class StartActivity extends Application {
 
         //only for testing purposes if enabled App will not recognize exisiting user and will pass you to SignUp Screen
         //sharedPrefs.edit().clear().commit();
-
 
         isUserNew = sharedPrefs.getBoolean(getString(R.string.userIsSignedUp), false);
     }
