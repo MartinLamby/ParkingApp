@@ -18,7 +18,7 @@ public class StartActivity extends Application {
         super.onCreate();
 
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "APP_KEY","CLIENT_KEY");
+        Parse.initialize(this, "APP-KEY-HERE","CLIENT-KEY-HERE");
 
         logOutCurrentUser();
         checkIfUserIsNew();

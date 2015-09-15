@@ -50,7 +50,7 @@ public class ShakeDetectorService extends Service {
             shakeAlreadyHappened = true;
 
             //get Location (will be replaced with Data from GeoLocationService (not existend to this date 13.09.2015)
-            System.out.println("SHAKE DETECTED");
+            //System.out.println("SHAKE DETECTED");
 
             saveParkedCarPositionToParse(GeoLocationService.getLastLocationLatitude(),GeoLocationService.getLastLocationLongitude());
             Toast toast = Toast.makeText(getApplicationContext(), "Position saved", Toast.LENGTH_SHORT);
@@ -66,7 +66,7 @@ public class ShakeDetectorService extends Service {
 
                 @Override
                 public void onFinish() {
-                    System.out.println("Timer finished");
+                    //System.out.println("Timer finished");
                     shakeAlreadyHappened = false;
                 }
             };

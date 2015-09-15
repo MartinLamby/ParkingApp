@@ -7,12 +7,16 @@ public class Contact {
 
     private String name;
     private String mobilePhoneNumber;
+    private String emailAddress;
+    private String emailType;
     private boolean isSelected;
 
 
-    public Contact(String name, String mobilePhoneNumber) {
+    public Contact(String name /*String mobilePhoneNumber*/, String emailAddress, String emailType) {
         this.name = name;
         this.mobilePhoneNumber = mobilePhoneNumber;
+        this.emailAddress = emailAddress;
+        this.emailType = emailType;
         isSelected = false;
     }
     public void setName(String name){
@@ -29,6 +33,13 @@ public class Contact {
     }
     public String getMobilePhoneNumber(){
         return mobilePhoneNumber;
+    }
+    public String getEmailAddress(){
+        return emailAddress;
+    }
+
+    public String getEmailType(){
+        return emailType;
     }
 
     public boolean getIsSelected(){

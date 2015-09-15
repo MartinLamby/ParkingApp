@@ -36,6 +36,7 @@ public class CustomContactListAdapter extends ArrayAdapter<Contact> {
             rowView = layoutInflater.inflate(R.layout.contacts_list_item, parent, false);
         }
         final TextView contactName = (TextView) rowView.findViewById(R.id.contactNameTextView);
+        final TextView emailType = (TextView) rowView.findViewById(R.id.emailTypeTextView);
 
         final View finalRowView = rowView;
         rowView.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +52,9 @@ public class CustomContactListAdapter extends ArrayAdapter<Contact> {
                 }
             }
         });
-
+        System.out.println(contacts.get(position).getEmailType());
         contactName.setText(contacts.get(position).getName());
+        emailType.setText(contacts.get(position).getEmailType());
 
         return rowView;
 

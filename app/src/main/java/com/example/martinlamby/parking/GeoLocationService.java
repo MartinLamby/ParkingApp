@@ -53,7 +53,7 @@ public class GeoLocationService extends Service implements GoogleApiClient.Conne
 
     @Override
     public void onLocationChanged(Location location) {
-        System.out.println("NEW LOCATION    " + location.getLatitude());
+        //System.out.println("NEW LOCATION    " + location.getLatitude());
         lastLocation = location;
     }
 
