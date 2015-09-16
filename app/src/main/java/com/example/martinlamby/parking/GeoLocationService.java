@@ -69,12 +69,13 @@ public class GeoLocationService extends Service implements GoogleApiClient.Conne
 
     @Override
     public void onConnected(Bundle bundle) {
-        mLocationRequest = LocationRequest.create();
+        /*mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(TIME_INTERVAL);
         mLocationRequest.setFastestInterval(TIME_INTERVAL/2);
 
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,mLocationRequest, this);
+        */
     }
 
     @Override

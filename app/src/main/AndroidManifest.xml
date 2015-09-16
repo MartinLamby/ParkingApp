@@ -50,6 +50,17 @@
             android:screenOrientation="portrait" >
         </activity>
 
+        <activity
+            android:name=".privateHeatMapActivity"
+            android:label="@string/title_activity_heat_map"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".publicHeatMapActivity"
+            android:label="@string/title_activity_heat_map"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <service
             android:name=".GeoLocationService"
             android:enabled="true"
@@ -60,6 +71,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA1WD94CuovP7I5y6djG-4Je9aU2d1pfl8"/>
+
     </application>
 
 </manifest>

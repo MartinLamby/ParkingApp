@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class ShareCarPositionActivity extends AppCompatActivity {
 
     private ArrayList<Contact> contacts;
     private CustomContactListAdapter customContactListAdapter;
+    private Contact selectedContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,16 +92,17 @@ public class ShareCarPositionActivity extends AppCompatActivity {
         }
     }
 
-    public void sendSMS(){
-        Contact selectedContact = customContactListAdapter.getSelectedContact();
-        System.out.println(selectedContact.getName());
-        //should work with sms and maybe email
-        //google url should also define zoom (z)
-        String emailBody = "Here is my car \n \nhttp://maps.google.com?q"+GeoLocationService.getLastLocationLatitude()+","+GeoLocationService.getLastLocationLongitude()+"&z=12";
-        System.out.println("googleMapsLocationUri");
+    public void sendSMS() {
+        selectedContact = customContactListAdapter.getSelectedContact();
+        if (selectedContact != null) {
+            System.out.println(selectedContact.getName());
+            //should work with sms and maybe email
+            //google url should also define zoom (z)
+            String emailBody = "Here is my car \n \nhttp://maps.google.com?q" + GeoLocationService.getLastLocationLatitude() + "," + GeoLocationService.getLastLocationLongitude() + "&z=12";
+            System.out.println("googleMapsLocationUri");
 
-        //email is implemented for test pruposes
-        try {
+            //email is implemented for test pruposes
+            try {
                 //SmsManager smsManager = SmsManager.getDefault();
                 //smsManager.sendTextMessage(selectedContact.getMobilePhoneNumber(), null, googleMapsLocationUri, null, null);
                 //System.out.println("SMS send");
@@ -108,13 +111,16 @@ public class ShareCarPositionActivity extends AppCompatActivity {
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Location of my Car"); //put as String ressource
                 intent.putExtra(Intent.EXTRA_TEXT, emailBody);
-                intent.setData(Uri.parse("mailto:"+selectedContact.getEmailAddress())); // or just "mailto:" for blank
+                intent.setData(Uri.parse("mailto:" + selectedContact.getEmailAddress())); // or just "mailto:" for blank
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
                 startActivity(intent);
 
-        }catch (Exception e){
-            System.out.println("Error:  "+e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Error:  " + e.getMessage());
+            }
+        } else {
+            Toast noContactSelected = Toast.makeText(getApplicationContext(), R.string.no_contact_selected, Toast.LENGTH_SHORT);
+            noContactSelected.show();
         }
     }
-
 }

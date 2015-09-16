@@ -75,8 +75,6 @@ public class ShakeDetectorService extends Service {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
             //not needed
         }
-
-
     };
 
 
@@ -111,9 +109,9 @@ public class ShakeDetectorService extends Service {
 
     public void saveParkedCarPositionToParse(double latitude, double longitude) {
         ParseObject parkedCarPosition = new ParseObject("ParkedCarPosition");
-        parkedCarPosition.add("latitude", latitude);
-        parkedCarPosition.add("longitude", longitude);
-        parkedCarPosition.add("username", ParseUser.getCurrentUser().getUsername());
+        parkedCarPosition.add("latitude",String.valueOf(latitude));
+        parkedCarPosition.add("longitude", String.valueOf(longitude));
+        parkedCarPosition.add("username", ParseUser.getCurrentUser().getUsername().toString());
         parkedCarPosition.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

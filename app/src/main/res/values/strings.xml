@@ -15,4 +15,5 @@
     <string name="title_activity_share_car_position">ShareCarPositionActivity</string>
     <string name="title_activity_heat_map">HeatMapActivity</string>
     <string name="selected">row is selected</string>
+    <string name="no_contact_selected">No contact selected</string>
 </resources>
